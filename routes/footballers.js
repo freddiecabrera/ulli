@@ -8,9 +8,10 @@ router.get('/', (req, res) => {
 
 router.get('/:footballer', (req, res) => {
   const footballer = req.params.footballer
-  Redis.hgetall(footballer, (err, data) => {
+  console.log(footballer);
+  Redis.HGETALL(footballer, (err, data) => {
     if (err) { return res.status(400).send('No data') }
-    else { res.send(data) }
+    else { res.status(200).send(data) }
   })
 })
 
@@ -18,15 +19,39 @@ router.post('/footballer', (req, res) => {
   const keyName = req.body.name.toLowerCase()
   const footballer = req.body.name
   const footballerData = JSON.stringify(req.body)
-  Redis.scan('0', (err, data) => {
-    if (err) { return res.status(400).res.send(err) }
-    const list = data[1]
-    const check = list.filter( key => key === footballer.toLowerCase())[0]
-    if (check){
-      res.status(200).send(footballer + ' is already in the database')
+  Redis.HGETALL(keyName, (err, data) => {
+    if (err) { return res.status(400).send(err) }
+    else if (data) {
+      res.status(200).send(`${footballer} is already in the DB`)
     } else {
       Redis.HMSET(keyName, { footballerData })
-      res.status(200).send(footballer + ' is in the DB')
+      res.status(200).send(`${footballer} is now in the DB`)
+    }
+  })
+})
+
+router.put('/footballer', (req, res) => {
+  const keyName = req.body.name.toLowerCase()
+  const footballer = req.body.name
+  const footballerData = JSON.stringify(req.body)
+  Redis.HGETALL(keyName, (err, data) => {
+    if (err) { return res.status(400).send(err) }
+    else if (data) {
+      Redis.HMSET(keyName, { footballerData })
+      res.status(200).send(`${footballer}'s data has been changed`)
+    } else {
+      res.status(200).send('Footballer is not in the DB')
+    }
+  })
+})
+
+router.delete('/:footballer', (req, res) => {
+  const hash = req.params.footballer;
+  Redis.DEL(hash, (err, reply) => {
+    if (err) { return res.status(400).send(err)}
+    else {
+      console.log(reply)
+      reply === 0 ? res.send('Not in the database') : res.send('Deleted')
     }
   })
 })
