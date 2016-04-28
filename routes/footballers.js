@@ -10,8 +10,8 @@ router.get('/:footballer', (req, res) => {
   const footballer = req.params.footballer
   console.log(footballer);
   Redis.HGETALL(footballer, (err, data) => {
-    if (err) { return res.status(400).send('No data') }
-    else { res.status(200).send(data) }
+    if (err) { return res.status(400).send('err') }
+    else { data ? res.status(200).send(data) : res.status(400).send(footballer + ' is not in the DB') }
   })
 })
 
@@ -37,8 +37,9 @@ router.put('/footballer', (req, res) => {
   Redis.HGETALL(keyName, (err, data) => {
     if (err) { return res.status(400).send(err) }
     else if (data) {
-      Redis.HMSET(keyName, { footballerData })
-      res.status(200).send(`${footballer}'s data has been changed`)
+      Redis.HMSET(keyName, { footballerData }, (err, reply) => {
+        err ? res.status(400).send(err) : res.status(200).send(`${footballer}'s data has been changed`)
+      })
     } else {
       res.status(200).send('Footballer is not in the DB')
     }
@@ -49,10 +50,7 @@ router.delete('/:footballer', (req, res) => {
   const hash = req.params.footballer;
   Redis.DEL(hash, (err, reply) => {
     if (err) { return res.status(400).send(err)}
-    else {
-      console.log(reply)
-      reply === 0 ? res.send('Not in the database') : res.send('Deleted')
-    }
+    else { reply === 0 ? res.send('Not in the database') : res.send('Deleted') }
   })
 })
 
