@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const Redis = require('../RedisDB/redis_config.js').createClient()
+const Redis = require('../redis/redis_config.js').createClient()
 
 router.get('/:totalPlayerAppearances', (req, res) => {
   const keyName = `${req.params.totalPlayerAppearances}'s total appearances`.toLowerCase()

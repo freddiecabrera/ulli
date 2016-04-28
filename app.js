@@ -10,7 +10,8 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const users = require('./routes/users');
 const footballers = require('./routes/footballers.js')
-const totalAppearances = require('./routes/totalAppearances.js')
+const totalAppearances = require('./routes/total-appearances.js')
+const totalGoalsScored = require('./routes/total-goals-scored.js')
 
 const app = express();
 
@@ -29,7 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/footballers', footballers);
-app.use('/totalAppearances', totalAppearances);
+app.use('/total-appearances', totalAppearances);
+app.use('/total-goals-scored', totalGoalsScored);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
