@@ -3,7 +3,7 @@ const router = express.Router()
 const Redis = require('../RedisDB/redis_config.js').createClient()
 
 router.get('/:totalPlayerAppearances', (req, res) => {
-  const keyName = req.params.totalPlayerAppearances
+  const keyName = `${req.params.totalPlayerAppearances}'s total appearances`.toLowerCase()
   Redis.HGETALL(keyName, (err, data) => {
     if (err) { return res.status(400).send(err) }
     else { data ? res.status(200).send(data.playerData) : res.status(200).send(`${keyName} data is not in the DB`) }
@@ -40,7 +40,12 @@ router.put('/totalPlayerAppearances', (req, res) => {
   })
 })
 
-// router.put()
-// route.delet()
+router.delete('/:totalPlayerAppearances', (req, res) => {
+  const keyName = `${req.params.totalPlayerAppearances}'s total appearances`.toLowerCase()
+  Redis.DEL(keyName, (err, reply) => {
+    if (err) { return res.status(400).send(err) }
+    else { reply === 0 ? res.status(200).send('Not in the database') : res.status(200).end('Deleted') }
+  })
+})
 
 module.exports = router
