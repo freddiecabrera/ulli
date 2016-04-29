@@ -11,7 +11,7 @@ router.get('/:footballer', (req, res) => {
   const footballer = req.params.footballer.toLowerCase()
   Redis.HGETALL(footballer, (err, data) => {
     if (err) { return res.status(400).send('err') }
-    else { data ? res.status(200).send(data.footballerData) : res.status(200).send('player not in the DB') }
+    else { data ? res.status(200).send(data.footballerData) : res.status(204).send('Data not in the DB') }
   })
 })
 
