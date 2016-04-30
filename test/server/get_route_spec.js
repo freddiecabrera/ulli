@@ -19,10 +19,10 @@ describe('GET server route', () => {
       .end((err, res) => {
         if (err) return done(err);
         expect(res.status).to.equal(200);
-        expect(parseInt(JSON.parse(res.text).fullGame)).to.be.an('number')
-        expect(parseInt(JSON.parse(res.text).subbedOn)).to.be.an('number')
-        expect(parseInt(JSON.parse(res.text).subbedOff)).to.be.an('number')
-        expect(JSON.parse(res.text)).to.be.an('object')
+        expect(parseInt(JSON.parse(res.text).fullGame)).to.be.an('number');
+        expect(parseInt(JSON.parse(res.text).subbedOn)).to.be.an('number');
+        expect(parseInt(JSON.parse(res.text).subbedOff)).to.be.an('number');
+        expect(JSON.parse(res.text)).to.be.an('object');
         done();
       });
   })
@@ -33,8 +33,8 @@ describe('GET server route', () => {
     .end((err, res) => {
       if (err) return done(err);
       expect(JSON.parse(res.text)).to.be.an('object');
-      expect(JSON.parse(JSON.parse(res.text).performanceScoreByMatch)).to.be.an('object')
-      expect(JSON.parse(JSON.parse(res.text).cumulativePerformanceScore)).to.be.an('object')
+      expect(JSON.parse(JSON.parse(res.text).performanceScoreByMatch)).to.be.an('object');
+      expect(JSON.parse(JSON.parse(res.text).cumulativePerformanceScore)).to.be.an('object');
       done();
     })
   })
@@ -55,7 +55,7 @@ describe('GET server route', () => {
       .end((err, res) => {
         if (err) return done(err);
         expect(res.status).to.equal(202);
-        expect(res.text).to.equal('Data not in the DB')
+        expect(res.text).to.equal('Data not in the DB');
         done();
       });
   })

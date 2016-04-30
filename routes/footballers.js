@@ -1,10 +1,10 @@
-const express = require('express')
-const router = express.Router()
-const Redis = require('../redis/redis_config.js').createClient()
+const express = require('express');
+const router = express.Router();
+const Redis = require('../redis/redis_config.js').createClient();
 
 const keyGenerator = (name, dataType) => {
-  if (dataType === 'footballer') { return name.toLowerCase() }
-  else { return `${name.toLowerCase()}'s ${dataType.toLowerCase()}` }
+  if (dataType === 'footballer') { return name.toLowerCase(); }
+  else { return `${name.toLowerCase()}'s ${dataType.toLowerCase()}`; }
 }
 
 router.get('/:footballer', (req, res) => {
@@ -16,12 +16,14 @@ router.get('/:footballer', (req, res) => {
 })
 
 router.post('/footballer', (req, res) => {
-  const keyName = keyGenerator(req.body.name, req.body.dataType)
-  const footballerData = JSON.stringify(req.body)
+  if(req.body.name && req.body.dataType){
+    const keyName = keyGenerator(req.body.name, req.body.dataType);
+  } else { return res.status(401).send('A name and dataType is required'); }
+  const footballerData = JSON.stringify(req.body);
   Redis.HGETALL(keyName, (err, data) => {
-    if (err) { return res.status(400).send(err) }
+    if (err) { return res.status(400).send(err); }
     else if (data) {
-      res.status(202).send('Data has already been submitted')
+      res.status(202).send('Data has already been submitted');
     } else {
       Redis.HMSET(keyName, { footballerData }, (err, reply) => {
         err ? res.status(400).send(err) : res.status(200).json(req.body)
@@ -31,26 +33,26 @@ router.post('/footballer', (req, res) => {
 })
 
 router.put('/footballer', (req, res) => {
-  const keyName = keyGenerator(req.body.name, req.body.dataType)
-  const footballerData = JSON.stringify(req.body)
+  const keyName = keyGenerator(req.body.name, req.body.dataType);
+  const footballerData = JSON.stringify(req.body);
   Redis.HGETALL(keyName, (err, data) => {
-    if (err) { return res.status(400).send(err) }
+    if (err) { return res.status(400).send(err); }
     else if (data) {
       Redis.HMSET(keyName, { footballerData }, (err, reply) => {
-        if (err) { return res.status(400).send(err) }
-        else { return res.status(200).send('Data has been changed') }
+        if (err) { return res.status(400).send(err); }
+        else { return res.status(200).send('Data has been changed'); }
       })
-    } else { return res.status(202).send('Data is not in the DB') }
+    } else { return res.status(202).send('Data is not in the DB'); }
   })
 })
 
 router.delete('/:footballer', (req, res) => {
   console.log(req.body.name);
-  const hash = keyGenerator(req.body.name, req.body.dataType)
+  const hash = keyGenerator(req.body.name, req.body.dataType);
   Redis.DEL(hash, (err, reply) => {
-    if (err) { return res.status(400).send(err)}
+    if (err) { return res.status(400).send(err); }
     else { reply === 0 ? res.status(202).send('Data not in the database') : res.status(200).send('Data deleted') }
   })
 })
 
-module.exports = router
+module.exports = router;
