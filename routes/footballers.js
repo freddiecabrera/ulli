@@ -24,7 +24,7 @@ router.post('/footballer', (req, res) => {
       res.status(202).send('Data has already been submitted')
     } else {
       Redis.HMSET(keyName, { footballerData }, (err, reply) => {
-        err ? res.status(400).send(err) : res.status(200).send('Data successfully submitted')
+        err ? res.status(400).send(err) : res.status(200).json(req.body)
       })
     }
   })

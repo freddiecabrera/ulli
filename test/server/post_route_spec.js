@@ -8,16 +8,9 @@ describe('POST server route', () => {
       .post('/footballers/footballer')
       .send({name: 'freddie', dataType: 'footballer'})
       .end((err, res) => {
-        console.log(res);
-        expect(res.text).to.equal('Data has already been submitted');
-        done();
-      })
-    request(app)
-      .get('/footballers/freddie')
-      .end((err,res) => {
-        expect(JSON.parse(res.text)).to.be.an('object');
-        expect(JSON.parse(res.text).name).to.be.an('string');
-        expect(JSON.parse(res.text)).to.be.an('string');
+        expect(res.body).to.be.an('object');
+        expect(res.body.name).to.be.an('string');
+        expect(res.body.dataType).to.be.an('string');
         done();
       })
   })
