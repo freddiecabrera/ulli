@@ -1,10 +1,9 @@
 const expect = require('chai').expect;
 const request = require('supertest-chai').request;
 const app = require('../../app.js');
-const Redis = require('../../redis/redis_config.js')
 
 describe('PUT server route', () => {
-  it('should', done => {
+  it('should edit something in the data base', done => {
     request(app)
     .put('/footballers/footballer')
     .send({ name: 'testplayer2', dataType: 'footballer', fullGame: '10', subbedOn: '10', subbedOff: '10' })
