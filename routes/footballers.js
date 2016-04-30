@@ -11,7 +11,7 @@ router.get('/:footballer', (req, res) => {
   const footballer = req.params.footballer.toLowerCase()
   Redis.HGETALL(footballer, (err, data) => {
     if (err) { return res.status(400).send('err') }
-    else { data ? res.status(200).send(data.footballerData) : res.status(204).send('Data not in the DB') }
+    else { data ? res.status(200).send(data.footballerData) : res.status(202).send('Data not in the DB') }
   })
 })
 
@@ -21,7 +21,7 @@ router.post('/footballer', (req, res) => {
   Redis.HGETALL(keyName, (err, data) => {
     if (err) { return res.status(400).send(err) }
     else if (data) {
-      res.status(200).send('Data has already been submitted')
+      res.status(202).send('Data has already been submitted')
     } else {
       Redis.HMSET(keyName, { footballerData }, (err, reply) => {
         err ? res.status(400).send(err) : res.status(200).send('Data successfully submitted')
@@ -40,7 +40,7 @@ router.put('/footballer', (req, res) => {
         if (err) { return res.status(400).send(err) }
         else { return res.status(200).send('Data has been changed') }
       })
-    } else { return res.status(200).send('Data is not in the DB') }
+    } else { return res.status(202).send('Data is not in the DB') }
   })
 })
 
@@ -48,7 +48,7 @@ router.delete('/:footballer', (req, res) => {
   const hash = keyGenerator(req.body.name, req.body.dataType)
   Redis.DEL(hash, (err, reply) => {
     if (err) { return res.status(400).send(err)}
-    else { reply === 0 ? res.status(200).send('Data not in the database') : res.status(200).end('Data deleted') }
+    else { reply === 0 ? res.status(202).send('Data not in the database') : res.status(200).send('Data deleted') }
   })
 })
 
