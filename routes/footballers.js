@@ -45,6 +45,7 @@ router.put('/footballer', (req, res) => {
 })
 
 router.delete('/:footballer', (req, res) => {
+  console.log(req.body.name);
   const hash = keyGenerator(req.body.name, req.body.dataType)
   Redis.DEL(hash, (err, reply) => {
     if (err) { return res.status(400).send(err)}

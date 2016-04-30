@@ -1,8 +1,8 @@
 const expect = require('chai').expect
 const request = require('supertest-chai').request;
-const app = require('../app.js')
+const app = require('../../app.js')
 
-describe('GET server connection', () => {
+describe('GET server route', () => {
   it('should respond to /', done => {
     request(app)
       .get('/')
@@ -32,7 +32,6 @@ describe('GET server connection', () => {
     .get('/footballers/Neymar%20Jr')
     .end((err, res) => {
       if (err) return done(err);
-      console.log(res.text);
       expect(JSON.parse(res.text)).to.be.an('object');
       expect(JSON.parse(JSON.parse(res.text).performanceScoreByMatch)).to.be.an('object')
       expect(JSON.parse(JSON.parse(res.text).cumulativePerformanceScore)).to.be.an('object')
