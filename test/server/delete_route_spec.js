@@ -3,7 +3,7 @@ const request = require('supertest-chai').request;
 const app = require('../../app.js');
 const Redis = require('../../redis/redis_config.js').createClient();
 
-describe('DELETE', () => {
+describe('DELETE server route', () => {
   it('should successfully delete', done => {
     request(app)
     .del('/footballers/testplayer3')
