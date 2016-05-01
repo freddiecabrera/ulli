@@ -1,1 +1,1 @@
-console.log('hello from webpack')
+console.log('hello');

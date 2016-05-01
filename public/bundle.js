@@ -51,7 +51,7 @@
 /* 1 */
 /***/ function(module, exports) {
 
-	console.log('hello from webpack');
+	console.log('hello');
 
 /***/ }
 /******/ ]);
