@@ -1,6 +1,6 @@
 
 module.exports = {
-entry: ['./client/index.jsx'],
+entry: ['./client/BrowserEntry.jsx'],
   module: {
     loaders: [{
       test: /\.jsx?$/,
