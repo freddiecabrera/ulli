@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const users = require('./routes/users');
-//const footballers = require('./routes/footballers.js');
+const footballers = require('./routes/footballers.js');
 const app = express();
 
 // view engine setup
@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-//app.use('/footballers', footballers);
+app.use('/footballers', footballers);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
