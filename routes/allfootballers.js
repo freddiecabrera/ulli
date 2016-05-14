@@ -3,8 +3,6 @@ const router = express.Router();
 const Redis = require('../redis/redis_config.js').createClient();
 const objectAssign = require('object-assign')
 
-//JSON.parse(req.body.guardado) this is for the get to parse the data
-
 router.get('/:allfootballers', (req, res) => {
   const key = req.params.allfootballers.toLowerCase();
   Redis.HGETALL(key, (err,data) => {
