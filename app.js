@@ -8,6 +8,15 @@ const routes = require('./routes/index');
 const users = require('./routes/users');
 const footballers = require('./routes/footballers.js');
 const app = express();
+const mongoose = require('mongoose');
+const cors = require('cors');
+const router = require('./authentication/router')
+const mongoUrl = process.env.MONGOLAB_URI || 'mongodb://localhost/ullibolapi';
+
+mongoose.connect(mongoUrl, function(err) {
+  if(err){console.log(err);}
+  else{console.log('connected');}
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/footballers', footballers);
+router(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
