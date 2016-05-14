@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const users = require('./routes/users');
 const footballers = require('./routes/footballers.js');
+const allfootballers = require('./routes/allfootballers.js');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/footballers', footballers);
+app.use('/allfootballers', allfootballers);
 router(app);
 
 // catch 404 and forward to error handler

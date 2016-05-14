@@ -10,10 +10,10 @@ const keyGenerator = (name, dataType) => {
 router.get('/:footballer', (req, res) => {
   const footballer = req.params.footballer.toLowerCase();
   Redis.HGETALL(footballer, (err, data) => {
-    if (err) return res.status(400).send('err');
+    if (err) return res.status(400).send(err);
     else data ? res.status(200).send(data.footballerData) : res.status(202).send('Data not in the DB');
-  })
-})
+  });
+});
 
 router.post('/footballer', (req, res) => {
   if(req.body.name && req.body.dataType) {
