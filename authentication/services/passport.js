@@ -22,7 +22,7 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-  secretOrKey: config.secret || SUPER_SECRET
+  secretOrKey: config.secret || process.env.SUPER_SECRET
 };
 
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
