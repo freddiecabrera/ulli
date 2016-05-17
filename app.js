@@ -12,7 +12,7 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const router = require('./authentication/router')
-const mongoUrl = process.env.MONGOLAB_URI || 'mongodb://localhost/ullibolapi';
+const mongoUrl = process.env.MONGODB_URI || 'mongodb://localhost/ullibolapi';
 
 mongoose.connect(mongoUrl, function(err) {
   if(err){console.log(err);}
