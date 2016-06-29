@@ -5,7 +5,7 @@ const Player = require('../models/model');
 router.get('/:playerID', (req, res) => {
   const playerID = req.params.playerID;
   Player.findById(playerID, (err, player) => {
-    console.log(player);
+    if (!player) return res.status(202).send('player not in the database');
     err ? res.status(400).send(err) : res.send(player);
   });
 });
@@ -23,18 +23,9 @@ router.put('/:playerID', (req, res) => {
   const option = { new: true };
 
   Player.findByIdAndUpdate(playerID, newPlayer, option, (err, player) => {
+    if (!player) return res.status(202).send('player not in the database');
     err ? res.status(400).send(err) : res.send(player);
   });
-});
-
-router.delete('/beer/:id', function(req, res) {
-    BeerList.findByIdAndRemove(req.body._id, function(err, beer) {
-        if (err) {
-            return res.status(400).send(err);
-        } else {
-            return res.status(200).send("Successfully Removed!");
-        }
-    })
 });
 
 router.delete('/:playerID', (req, res) => {
